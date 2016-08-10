@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.administrator.news.News;
+import com.example.administrator.news.bean.News;
 import com.example.administrator.news.R;
 import com.squareup.picasso.Picasso;
 

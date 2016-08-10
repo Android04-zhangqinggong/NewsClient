@@ -1,20 +1,24 @@
 package com.example.administrator.news.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.administrator.news.News;
-import com.example.administrator.news.ParseNews;
+import com.example.administrator.news.bean.News;
+import com.example.administrator.news.common.ParseNews;
 import com.example.administrator.news.R;
 import com.example.administrator.news.adapter.NewsAdapter;
 import com.example.administrator.news.common.HttpClientUtil;
+import com.example.administrator.news.ui.ShownewsActivity;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,9 +27,10 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarFragment extends Fragment {
+public class GuojiFragment extends Fragment implements AdapterView.OnItemClickListener{
 
 
+    private static final String TAG = "TopFragment";
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -36,7 +41,7 @@ public class CarFragment extends Fragment {
     ListView mListView;
     public ArrayList<News> mNewsArrayList;
 
-    public CarFragment() {
+    public GuojiFragment() {
 
     }
 
@@ -44,13 +49,22 @@ public class CarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_car, container, false);
-        mListView = (ListView) view.findViewById(R.id.lv_fragment_car);
+        View view = inflater.inflate(R.layout.fragment, container, false);
+        mListView = (ListView) view.findViewById(R.id.lv_fragment);
         mNewsArrayList = new ArrayList<>();
         initData();
+        mListView.setOnItemClickListener(this);
         return view;
     }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String url = mNewsArrayList.get(position).getUrl();
+        Intent intent = new Intent(getContext(),ShownewsActivity.class);
+        intent.putExtra("URL",url);
+        Log.d(TAG, "数据: " + url);
+        startActivity(intent);
 
+    }
     private void initData() {
         //必须开启一个线程进行联网操作
         new Thread(){
@@ -58,7 +72,7 @@ public class CarFragment extends Fragment {
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL("http://c.m.163.com/nc/article/list/T1348654060988/0-20.html");
+                    URL url = new URL("http://v.juhe.cn/toutiao/index?type=guoji&key=e5a12c17184566014f12b71199624fcf");
                     //调用方法,传入URL,返回一个Json字符串
                     HttpClientUtil httpClientUtil = HttpClientUtil.getInstance(getContext());
                     String JsonString = httpClientUtil.httpGet(url);
@@ -73,5 +87,6 @@ public class CarFragment extends Fragment {
             }
         }.start();
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.administrator.news;
+package com.example.administrator.news.gsonbean;
 
 import java.util.List;
 

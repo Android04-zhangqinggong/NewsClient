@@ -27,8 +27,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopFragment extends Fragment implements AdapterView.OnItemClickListener {
-
+public class GuoneiFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private static final String TAG = "TopFragment";
     private Handler mHandler = new Handler(){
@@ -41,7 +40,7 @@ public class TopFragment extends Fragment implements AdapterView.OnItemClickList
     ListView mListView;
     public ArrayList<News> mNewsArrayList;
 
-    public TopFragment() {
+    public GuoneiFragment() {
 
     }
 
@@ -72,7 +71,7 @@ public class TopFragment extends Fragment implements AdapterView.OnItemClickList
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL("http://v.juhe.cn/toutiao/index?type=top&key=e5a12c17184566014f12b71199624fcf");
+                    URL url = new URL("http://v.juhe.cn/toutiao/index?type=guonei&key=e5a12c17184566014f12b71199624fcf");
                     //调用方法,传入URL,返回一个Json字符串
                     HttpClientUtil httpClientUtil = HttpClientUtil.getInstance(getContext());
                     String JsonString = httpClientUtil.httpGet(url);
@@ -87,6 +86,5 @@ public class TopFragment extends Fragment implements AdapterView.OnItemClickList
             }
         }.start();
     }
-
 
 }

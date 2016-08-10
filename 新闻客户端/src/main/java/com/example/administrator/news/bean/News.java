@@ -1,4 +1,4 @@
-package com.example.administrator.news;
+package com.example.administrator.news.bean;
 
 /**
  * Created by Administrator on 2016/8/8.
@@ -10,18 +10,25 @@ public class News {
     private String summary;
     //图标
     private String icon;
+    //链接
+    private String url;
 
-    public News( String title, String icon) {
+    public News(String title, String icon ,String url) {
         this.title = title;
         this.icon = icon;
+        this.url = url;
     }
-
-
 
 
     public News() {
     }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
+    public String getUrl() {
+        return url;
+    }
 
     public void setTitle(String title) {
         this.title = title;
