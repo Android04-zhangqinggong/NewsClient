@@ -1,6 +1,7 @@
 package com.example.administrator.news.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
     NavigationView mNavigationView;
     private ActionBarDrawerToggle mToggle;
     ImageView mImageView;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,15 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
+                //点击时判断是否已经登录,若已登录,跳转至账号显示界面(可退出登录),没有登录,则跳转至登录界面
+                SharedPreferences isLogin = getSharedPreferences("isLogin", MODE_PRIVATE);
+                boolean islogin = isLogin.getBoolean("islogin", false);
+                if (islogin){
+                    mIntent = new Intent(MainActivity.this,AccountShowActivity.class);
+                }else{
+                    mIntent = new Intent(MainActivity.this,LoginActivity.class);
+                }
+                startActivity(mIntent);
                 //跳转后关闭navigationView
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             }

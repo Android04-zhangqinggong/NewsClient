@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.administrator.news.R;
 
@@ -32,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         edit.putString("account",mAccount.getText().toString());
         edit.putString("password",mPassword.getText().toString());
         edit.commit();//必须提交
+        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
         finish();//注册完成后关闭此activity
     }
 }

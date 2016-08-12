@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mData = getSharedPreferences("data",MODE_PRIVATE);
         if (isRemember){
-            /*如果选择了记住密码,将记住的账号和密码都展示在输入*/
+            /*如果选择了记住密码,将记住的账号和密码都展示在输入框*/
             mAccountEdit.setText(mData.getString("account",""));
             mPasswordEdit.setText(mData.getString("password",""));
             //并且chekBox显示打钩状态
@@ -72,6 +72,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mEdit.clear();
                     }
                     mEdit.commit();
+                    //点击登录以后,再生成一个文件isLogin,记录已登录的状态
+                    SharedPreferences isLogin = getSharedPreferences("isLogin", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = isLogin.edit();
+                    edit.putBoolean("islogin",true);
+                    edit.commit();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
