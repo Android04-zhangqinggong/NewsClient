@@ -23,7 +23,9 @@ public class ParseNews {
             String title = dataBean.getTitle();
             String icon = dataBean.getThumbnail_pic_s();
             String url = dataBean.getUrl();
-            News news = new News(title,icon,url);
+            String author_name = dataBean.getAuthor_name();
+            String time = dataBean.getDate();
+            News news = new News(title,icon,url,author_name,time);
             newsArrayList.add(news);
         }
         return newsArrayList;

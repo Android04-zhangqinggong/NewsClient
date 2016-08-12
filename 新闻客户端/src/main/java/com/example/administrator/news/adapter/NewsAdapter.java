@@ -51,6 +51,8 @@ public class NewsAdapter extends BaseAdapter{
             convertView = View.inflate(mContext, R.layout.item_list_news,null);
             mViewHolder.mImageView = (ImageView) convertView.findViewById(R.id.iv_icon);
             mViewHolder.mTextView1 = (TextView) convertView.findViewById(R.id.tv_title);
+            mViewHolder.mTextView2 = (TextView) convertView.findViewById(R.id.tv_authorname);
+            mViewHolder.mTextView3 = (TextView) convertView.findViewById(R.id.tv_time);
             convertView.setTag(mViewHolder);
         }else{
             mViewHolder = (ViewHolder) convertView.getTag();
@@ -59,10 +61,15 @@ public class NewsAdapter extends BaseAdapter{
                 .load(mArrayList.get(position).getIcon())
                 .into(mViewHolder.mImageView);
         mViewHolder.mTextView1.setText(mArrayList.get(position).getTitle());
+        mViewHolder.mTextView2.setText(mArrayList.get(position).getAuthorName());
+        mViewHolder.mTextView3.setText(mArrayList.get(position).getTime());
+
         return convertView;
     }
     private static class ViewHolder{
         public ImageView mImageView;
         public TextView mTextView1;
+        public TextView mTextView2;
+        public TextView mTextView3;
     }
 }

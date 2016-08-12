@@ -24,14 +24,22 @@
     android:textAppearance="?android:attr/textAppearanceMedium"-->
 
     <TextView
-        android:id="@+id/tv_summary"
+        android:id="@+id/tv_authorname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
         android:layout_toRightOf="@+id/iv_icon"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:singleLine="true"
-        android:scrollHorizontally="true"/>
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_toRightOf="@+id/tv_authorname"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"/>
 
 </RelativeLayout>

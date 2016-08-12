@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">NewsClient</string>
+    <string name="app_name">新闻在线</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start"/>
+    <string name="end"/>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>
