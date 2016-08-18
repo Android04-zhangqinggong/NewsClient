@@ -1,1 +1,1 @@
-include ':新闻客户端'
+include '新闻客户端'

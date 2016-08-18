@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GuojiFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class GuojiFragment extends Fragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     private static final String TAG = "TopFragment";
@@ -35,6 +36,7 @@ public class GuojiFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            mSwipeRefreshLayout.setRefreshing(false);
             mListView.setAdapter(new NewsAdapter(getContext(), (ArrayList<News>) msg.obj));
         }
     };
@@ -45,16 +47,32 @@ public class GuojiFragment extends Fragment implements AdapterView.OnItemClickLi
 
     }
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment, container, false);
         mListView = (ListView) view.findViewById(R.id.lv_fragment);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         mNewsArrayList = new ArrayList<>();
+        //initdata所在地
         initData();
         mListView.setOnItemClickListener(this);
+
+        //SwipeRefreshLayout + ListView下拉刷新
+        //setColorSchemeResources()可以控制圆形动画的颜色，最多设置4个
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary);
+        //设置进度圈背景色
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color1);
+        //设置手势滑动监听器
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         return view;
+    }
+    @Override
+    public void onRefresh() {
+        initData();
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,6 +105,7 @@ public class GuojiFragment extends Fragment implements AdapterView.OnItemClickLi
             }
         }.start();
     }
+
 
 
 }

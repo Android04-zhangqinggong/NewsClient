@@ -13,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.administrator.news.R;
 import com.example.administrator.news.adapter.TitleAdapter;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
     private ActionBarDrawerToggle mToggle;
     ImageView mImageView;
     private Intent mIntent;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_left);
         mRecyclerView.setHasFixedSize(true);
+
         //设置recycleView 以什么形式展示出来
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         mRecyclerView.setLayoutManager(manager);
@@ -65,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
         mTransaction.replace(R.id.ll_insertfragment,new TopFragment());
         mTransaction.commit();
         //NavigationDrawer
-        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout, R.string.start,R.string.end);
+        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar, R.string.start,R.string.end);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //navogation里的imageView设置点击事件
+        //navigation里的header里的imageView设置点击事件
         View headerView = mNavigationView.getHeaderView(0);
         mImageView = (ImageView) headerView.findViewById(R.id.navigation_header_login);
         mImageView.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +90,26 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
                 startActivity(mIntent);
                 //跳转后关闭navigationView
                 mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+        //navigation里的item设置点击事件
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.drawer_item_collect:
+                        Toast.makeText(MainActivity.this, "点击了我的收藏", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.drawer_item_address:
+                        Toast.makeText(MainActivity.this, "点击了我的位置", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.drawer_item_like:
+                        Toast.makeText(MainActivity.this, "点击了我的喜欢", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
         });
 
@@ -110,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
         mManager = getSupportFragmentManager();
         mTransaction = mManager.beginTransaction();
         switch (postion){
+            case 0:
+                mTransaction.replace(R.id.ll_insertfragment,new TopFragment());
+                mTransaction.commit();
+                break;
             case 1:
                 mTransaction.replace(R.id.ll_insertfragment,new ShehuiFragment());
                 mTransaction.commit();

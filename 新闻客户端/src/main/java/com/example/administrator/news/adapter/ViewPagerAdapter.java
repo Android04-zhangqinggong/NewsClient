@@ -3,7 +3,6 @@ package com.example.administrator.news.adapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -11,33 +10,36 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/8/9.
  */
 public class ViewPagerAdapter extends PagerAdapter{
-    ArrayList<ImageView> mViewArrayList;
+    private ArrayList<View> mArrayList;
 
-    public ViewPagerAdapter(ArrayList<ImageView> viewArrayList) {
-        mViewArrayList = viewArrayList;
+    public ViewPagerAdapter(ArrayList<View> arrayList) {
+        mArrayList = arrayList;
     }
-
+    //以下两方法为抽象方法,必须重写
     @Override
     public int getCount() {
-        if (mViewArrayList != null){
-            mViewArrayList.size();
+        if(mArrayList != null){
+            return mArrayList.size();
         }
         return 0;
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == (View) object;
+        return view == object;
     }
-
+    //以下两个方法为非抽象方法,为自己重写
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mViewArrayList.get(position));
-        return mViewArrayList.get(position);
+        //给容器里添加试图
+        container.addView(mArrayList.get(position));
+        //把具体的视图返回调用者
+        return mArrayList.get(position);
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(mViewArrayList.get(position));
+        //从容器里移除试图
+        container.removeView(mArrayList.get(position));
     }
 }

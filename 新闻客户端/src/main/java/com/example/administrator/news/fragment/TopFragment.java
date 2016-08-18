@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.administrator.news.bean.News;
-import com.example.administrator.news.common.ParseNews;
 import com.example.administrator.news.R;
 import com.example.administrator.news.adapter.NewsAdapter;
+import com.example.administrator.news.bean.News;
 import com.example.administrator.news.common.HttpClientUtil;
+import com.example.administrator.news.common.ParseNews;
 import com.example.administrator.news.ui.ShownewsActivity;
 
 import java.net.MalformedURLException;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class TopFragment extends Fragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     private static final String TAG = "TopFragment";
@@ -35,32 +36,54 @@ public class TopFragment extends Fragment implements AdapterView.OnItemClickList
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            mListView.setAdapter(new NewsAdapter(getContext(), (ArrayList<News>) msg.obj));
+            NewsAdapter adapter = new NewsAdapter(getContext(), (ArrayList<News>) msg.obj);
+            mSwipeRefreshLayout.setRefreshing(false);
+            mListView.setAdapter(adapter);
         }
     };
     ListView mListView;
     public ArrayList<News> mNewsArrayList;
 
+
     public TopFragment() {
 
     }
-
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment, container, false);
         mListView = (ListView) view.findViewById(R.id.lv_fragment);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         mNewsArrayList = new ArrayList<>();
         initData();
         mListView.setOnItemClickListener(this);
+
+        //SwipeRefreshLayout + ListView下拉刷新
+        //setColorSchemeResources()可以控制圆形动画的颜色，最多设置4个
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary);
+        //设置进度圈背景色
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color1);
+        //设置手势滑动监听器
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         return view;
+    }
+    @Override
+    public void onRefresh() {
+        initData();
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String url = mNewsArrayList.get(position).getUrl();
+        String title = mNewsArrayList.get(position).getTitle();
+        String icon = mNewsArrayList.get(position).getIcon();
         Intent intent = new Intent(getContext(),ShownewsActivity.class);
+
         intent.putExtra("URL",url);
+        intent.putExtra("title",title);
+        intent.putExtra("image",icon);
         Log.d(TAG, "数据: " + url);
         startActivity(intent);
 
@@ -87,6 +110,7 @@ public class TopFragment extends Fragment implements AdapterView.OnItemClickList
             }
         }.start();
     }
+
 
 
 }
