@@ -33,7 +33,6 @@ public class AccountShowActivity extends AppCompatActivity {
                 edit.putBoolean("islogin",false);
                 edit.commit();
                 finish();
-                //jaslfks;lakf  k 'pokiqpotipo34q
             }
         });
 
