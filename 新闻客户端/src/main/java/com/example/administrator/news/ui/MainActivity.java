@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.administrator.news.R;
+import com.example.administrator.news.adapter.FragmentViewpagerAdapter;
 import com.example.administrator.news.adapter.TitleAdapter;
 import com.example.administrator.news.fragment.CaijingFragment;
 import com.example.administrator.news.fragment.GuojiFragment;
@@ -30,6 +33,8 @@ import com.example.administrator.news.fragment.ShehuiFragment;
 import com.example.administrator.news.fragment.ShishangFragment;
 import com.example.administrator.news.fragment.TopFragment;
 import com.example.administrator.news.fragment.YuleFragment;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements TitleAdapter.MyItemClickListener{
     private RecyclerView mRecyclerView;
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
     ImageView mImageView;
     private Intent mIntent;
     Toolbar mToolbar;
+    private ViewPager mViewPager;
+    private ArrayList<Fragment> mFragmentArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +70,28 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
         TitleAdapter adapter = new TitleAdapter(titles,this);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
+        //ViewPager
+        mViewPager = (ViewPager) findViewById(R.id.vp_insertfragment);
+        mFragmentArrayList = new ArrayList<>();
+        mFragmentArrayList.add(new TopFragment());
+        mFragmentArrayList.add(new ShehuiFragment());
+        mFragmentArrayList.add(new GuoneiFragment());
+        mFragmentArrayList.add(new GuojiFragment());
+        mFragmentArrayList.add(new GuoneiFragment());
+        mFragmentArrayList.add(new YuleFragment());
+        mFragmentArrayList.add(new JunshiFragment());
+        mFragmentArrayList.add(new KejiFragment());
+        mFragmentArrayList.add(new CaijingFragment());
+        mFragmentArrayList.add(new ShishangFragment());
+        mViewPager.setCurrentItem(0);
+        FragmentViewpagerAdapter adapter1 = new FragmentViewpagerAdapter(getSupportFragmentManager(),mFragmentArrayList);
+        mViewPager.setAdapter(adapter1);
+
         //默认显示TopFragment内容
         mManager = getSupportFragmentManager();
         mTransaction = mManager.beginTransaction();
-        mTransaction.replace(R.id.ll_insertfragment,new TopFragment());
+        mTransaction.replace(R.id.vp_insertfragment,new TopFragment());
         mTransaction.commit();
         //NavigationDrawer
         mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar, R.string.start,R.string.end);
@@ -131,47 +156,6 @@ public class MainActivity extends AppCompatActivity implements TitleAdapter.MyIt
 
     @Override
     public void onItemClick(View view, int postion) {
-        mManager = getSupportFragmentManager();
-        mTransaction = mManager.beginTransaction();
-        switch (postion){
-            case 0:
-                mTransaction.replace(R.id.ll_insertfragment,new TopFragment());
-                mTransaction.commit();
-                break;
-            case 1:
-                mTransaction.replace(R.id.ll_insertfragment,new ShehuiFragment());
-                mTransaction.commit();
-                break;
-            case 2:
-                mTransaction.replace(R.id.ll_insertfragment,new GuoneiFragment());
-                mTransaction.commit();
-                break;
-            case 3:
-                mTransaction.replace(R.id.ll_insertfragment,new GuojiFragment());
-                mTransaction.commit();
-                break;
-            case 4:
-                mTransaction.replace(R.id.ll_insertfragment,new YuleFragment());
-                mTransaction.commit();
-                break;
-            case 5:
-                mTransaction.replace(R.id.ll_insertfragment,new JunshiFragment());
-                mTransaction.commit();
-                break;
-            case 6:
-                mTransaction.replace(R.id.ll_insertfragment,new KejiFragment());
-                mTransaction.commit();
-                break;
-            case 7:
-                mTransaction.replace(R.id.ll_insertfragment,new CaijingFragment());
-                mTransaction.commit();
-                break;
-            case 8:
-                mTransaction.replace(R.id.ll_insertfragment,new ShishangFragment());
-                mTransaction.commit();
-                break;
-            default:
-                break;
-        }
+        mViewPager.setCurrentItem(postion);
     }
 }

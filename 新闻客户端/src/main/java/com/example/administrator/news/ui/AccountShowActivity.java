@@ -19,7 +19,6 @@ public class AccountShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_show);
         mTextView = (TextView) findViewById(R.id.tv_showaccount);
         mButton = (Button) findViewById(R.id.btn_logout);
-
         SharedPreferences data = getSharedPreferences("data", MODE_PRIVATE);
         String account = data.getString("account", "");
         mTextView.setText(account);
@@ -34,6 +33,7 @@ public class AccountShowActivity extends AppCompatActivity {
                 edit.putBoolean("islogin",false);
                 edit.commit();
                 finish();
+                //new Branch 操作
             }
         });
 
