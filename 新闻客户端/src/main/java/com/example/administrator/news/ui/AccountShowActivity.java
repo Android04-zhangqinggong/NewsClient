@@ -33,7 +33,7 @@ public class AccountShowActivity extends AppCompatActivity {
                 edit.putBoolean("islogin",false);
                 edit.commit();
                 finish();
-                //new Branch 操作
+                //jaslfks;lakf  k 'pokiqpotipo34q
             }
         });
 
